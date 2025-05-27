@@ -1,0 +1,62 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{greek}
+\newfontfamily\greekfont{Times New Roman}
+\newfontfamily\greekfonttt{Courier New}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{caption}
+
+
+\title{Εφαρμογή Streamlit για Ανάλυση scRNA-seq Δεδομένων}
+\author{Τσιγάρας Βασίλειος, Καλαμάτας Χρυσόστομος}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Η παρούσα εργασία περιγράφει την ανάπτυξη μίας διαδικτυακής πλατφόρμας για την ανάλυση δεδομένων single-cell RNA-seq (scRNA-seq), βασισμένη στη βιβλιοθήκη Streamlit και το υποσύστημα ανάλυσης Scanpy. Η εφαρμογή επιτρέπει τη μεταφόρτωση αρχείων H5AD, την προεπεξεργασία δεδομένων, τη μείωση διαστάσεων (PCA και UMAP) και την απεικόνιση των αποτελεσμάτων με στόχο την εύκολη χρήση από μη-προγραμματιστές ερευνητές. Περιγράφεται η υλοποίηση, η αρχιτεκτονική, η dockerization και παρουσιάζονται διαγράμματα UML και ενδεικτικές οπτικοποιήσεις.
+\end{abstract}
+
+\section{Εισαγωγή}
+Η τεχνολογία scRNA-seq επιτρέπει την καταγραφή της γονιδιακής έκφρασης σε επίπεδο μεμονωμένων κυττάρων. Οι αναλύσεις αυτές απαιτούν πολυδιάστατη επεξεργασία και εξειδικευμένες βιοπληροφορικές μεθόδους. Η παρούσα εργασία παρουσιάζει μια απλή web εφαρμογή βασισμένη στο Streamlit, η οποία αυτοματοποιεί τα βασικά βήματα ανάλυσης.
+
+\section{Σχεδιασμός Υλοποίησης}
+Η εφαρμογή έχει τρεις κύριες λειτουργικές περιοχές: μεταφόρτωση δεδομένων, προεπεξεργασία και οπτικοποίηση αποτελεσμάτων. Τα δεδομένα φορτώνονται ως αντικείμενα AnnData μέσω Scanpy. Ο χρήστης ρυθμίζει φίλτρα (π.χ. ελάχιστα γονίδια/κύτταρο) και εκτελεί PCA και UMAP. Τα αποτελέσματα αποθηκεύονται και παρουσιάζονται διαδραστικά.
+
+\section{UML Διαγράμματα}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{uml_use_case.png}
+\caption{Use Case διάγραμμα: ενέργειες χρήστη στην εφαρμογή.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{uml_class_diagram.png}
+\caption{Διάγραμμα κλάσεων: βασικά συστατικά του συστήματος.}
+\end{figure}
+
+\section{Ανάλυση Υλοποίησης}
+Η εφαρμογή είναι γραμμένη σε Python. Το Streamlit διαχειρίζεται το UI με χρήση sidebar και κουμπιών, ενώ η επεξεργασία γίνεται με Scanpy. Ο χρήστης ανεβάζει αρχείο .h5ad, ρυθμίζει φίλτρα και παράγει embedding μέσω PCA/UMAP. Τα δεδομένα αποθηκεύονται σε session state για διατήρηση κατά την πλοήγηση.
+
+\section{Οπτικοποιήσεις Αποτελεσμάτων}
+
+\begin{itemize}
+  \item Bar charts για κατανομή batch/cell type
+\end{itemize}
+
+\section{Dockerization της Εφαρμογής}
+
+Η εφαρμογή containerized μέσω Docker. Το Dockerfile χρησιμοποιεί ως βάση python:3.10-slim, εγκαθιστά τις απαιτούμενες βιβλιοθήκες από requirements.txt, αντιγράφει τον κώδικα και εκκινεί την εφαρμογή μέσω της εντολής \texttt{streamlit run app.py}. Εκτίθεται η πόρτα 8501 για πρόσβαση από φυλλομετρητή.
+
+\section{Συμπεράσματα}
+Η εφαρμογή προσφέρει έναν απλό και προσβάσιμο τρόπο ανάλυσης δεδομένων scRNA-seq, χωρίς να απαιτείται εμπειρία στον προγραμματισμό. Η χρήση Streamlit και Scanpy διασφαλίζει ευελιξία και δυνατότητα επέκτασης, ενώ η dockerization επιτρέπει την εύκολη διάθεση σε συνεργάτες ή cloud περιβάλλοντα.
+
+\end{document}

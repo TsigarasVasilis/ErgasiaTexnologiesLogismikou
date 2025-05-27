@@ -1,0 +1,10 @@
+pandas
+numpy
+matplotlib
+seaborn
+streamlit
+scanpy
+anndata
+scikit-learn
+joblib
+hdf5plugin
